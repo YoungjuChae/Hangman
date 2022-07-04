@@ -1,5 +1,10 @@
+# Author: Youngju Chae
+# Hangman game
+
+# Importing necessary module
 import random
 
+# Creating necessary variables
 amountHint = 0
 HANGMANPICS = ['''
 
@@ -20,7 +25,6 @@ HANGMANPICS = ['''
         |
         |
 ===========''', '''
-
 
     +---+
     |   |
@@ -90,29 +94,24 @@ words = {
     'Fruits': 'apple banana blackberry blueberry cherry cranberry durian grapefruit grape guava honeydew jackfruit kiwi lemon lime mandarin mango olives orange papaya peach pear pineapple plum pomegranate prune rasberry strawberry tangerine watermelon'.split(),
     'Colors': 'aquamarine black blue brown cyan green gray indigo lime magenta maroon navy olive orange pink purple red silver tan teal turquoise violet white yellow'.split()}
 
-
+# Determine category and word
 def getRandomWord(wordDict):
     wordKey = getSet(wordDict)
     wordIndex = random.randint(0, len(wordDict[wordKey]) - 1)
     return [wordDict[wordKey][wordIndex], wordKey]
 
-
+# Display the game
 def displayBoard(HANGMANPICS, missedLetters, correctLetters, secretWord):
     print(HANGMANPICS[len(missedLetters)])
     print()
-
     print('Missed letters:', end=' ')
     for letter in missedLetters:
         print(letter, end=' ')
     print()
-
     blanks = '_' * len(secretWord)
-
     for i in range(len(secretWord)):
-
         if secretWord[i] in correctLetters:
             blanks = blanks[:i] + secretWord[i] + blanks[i + 1:]
-
     for letter in blanks:
         print(letter, end=' ')
     print()
@@ -136,39 +135,14 @@ def getSet(wordDict):
                 break
         else:
             print('Please enter a NUMBER.')
-
     return key
 
-
-# Given a secret word - Apple
-# You guessed e         ____e
-
-# create variable potential hint
-# Iterate (for loop) through secret word
-# check if the character is already guess
-# if not add it to list of potential hint
-# After the for loop return a random character from the potential hint
-
-# Print the hint
 def getHint(correctLetters, secretWord):
     potential_hint = ''
     for i in range(len(secretWord)):
         if secretWord[i] not in correctLetters:
             potential_hint = potential_hint + secretWord[i]
     return potential_hint[random.randint(0, len(potential_hint) - 1)]
-    # return random.choice(potential_hint)
-
-
-#    for i in range(len(secretWord)):
-#        if secretWord[i] not in correctLetters:
-#            hint = secretWord[i]
-#            return hint
-
-
-#    HINT do something similar to below probably opposite to get list of characters in secret word that is not in correct letters
-#    for i in range(len(secretWord)):
-#        if secretWord[i] in correctLetters:
-#            blanks = blanks[:i] + secretWord[i] + blanks[i + 1:]
 
 def getGuess(missedLetters, correctLetters, secretWord):
     global amountHint
@@ -192,21 +166,17 @@ def getGuess(missedLetters, correctLetters, secretWord):
         else:
             return guess
 
-
 def playAgain():
     print('Do you want to play again? (yes or no)')
     return input().lower().startswith('y')
 
-
 print('H A N G M A N')
 missedLetters = ''
 correctLetters = ''
-
 secretWord, secretKey = getRandomWord(words)
 gameIsDone = False
 
 while True:
-
     print('The secret word is in the set: ' + secretKey)
     displayBoard(HANGMANPICS, missedLetters, correctLetters, secretWord)
     guess = getGuess(missedLetters, correctLetters, secretWord)
