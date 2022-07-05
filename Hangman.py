@@ -94,7 +94,7 @@ words = {
     'Fruits': 'apple banana blackberry blueberry cherry cranberry durian grapefruit grape guava honeydew jackfruit kiwi lemon lime mandarin mango olives orange papaya peach pear pineapple plum pomegranate prune rasberry strawberry tangerine watermelon'.split(),
     'Colors': 'aquamarine black blue brown cyan green gray indigo lime magenta maroon navy olive orange pink purple red silver tan teal turquoise violet white yellow'.split()}
 
-# Determine category and word
+# Determine word
 def getRandomWord(wordDict):
     wordKey = getSet(wordDict)
     wordIndex = random.randint(0, len(wordDict[wordKey]) - 1)
@@ -116,7 +116,7 @@ def displayBoard(HANGMANPICS, missedLetters, correctLetters, secretWord):
         print(letter, end=' ')
     print()
 
-
+# Determine category
 def getSet(wordDict):
     key = ""
     while True:
@@ -137,6 +137,7 @@ def getSet(wordDict):
             print('Please enter a NUMBER.')
     return key
 
+# Give hint to player 
 def getHint(correctLetters, secretWord):
     potential_hint = ''
     for i in range(len(secretWord)):
@@ -144,6 +145,7 @@ def getHint(correctLetters, secretWord):
             potential_hint = potential_hint + secretWord[i]
     return potential_hint[random.randint(0, len(potential_hint) - 1)]
 
+# Determine player's guess
 def getGuess(missedLetters, correctLetters, secretWord):
     global amountHint
     alreadyGuessed = missedLetters + correctLetters
@@ -166,16 +168,19 @@ def getGuess(missedLetters, correctLetters, secretWord):
         else:
             return guess
 
+# Play game
 def playAgain():
     print('Do you want to play again? (yes or no)')
     return input().lower().startswith('y')
 
+# Create necessary variables
 print('H A N G M A N')
 missedLetters = ''
 correctLetters = ''
 secretWord, secretKey = getRandomWord(words)
 gameIsDone = False
 
+# Determine if player guessed correctly
 while True:
     print('The secret word is in the set: ' + secretKey)
     displayBoard(HANGMANPICS, missedLetters, correctLetters, secretWord)
@@ -195,13 +200,13 @@ while True:
     else:
         print("Guessted letter is NOT in the secret word")
         missedLetters = missedLetters + guess
-
+        # Determine if player ran out of guesses
         if len(missedLetters)==len(HANGMANPICS) - 1:
             displayBoard(HANGMANPICS, missedLetters, correctLetters, secretWord)
             print('You have run out of guesses!\nAfter ' + str(len(missedLetters)) + ' missed guesses and ' + str(
                 len(correctLetters)) + ' correct guesses, the word was "' + secretWord + '"')
             gameIsDone = True
-
+    # Reset necessary variables and play again
     if gameIsDone:
         if playAgain():
             missedLetters = ''
